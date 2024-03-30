@@ -78,9 +78,9 @@ const config: QuartzConfig = {
       Plugin.FolderPage(),
       Plugin.TagPage(),
       Plugin.ContentIndex({
-        // enableSiteMap: true,
-        // rssFullHtml: true,
-        // enableRSS: true,
+        enableSiteMap: false,
+        rssFullHtml: false,
+        enableRSS: false,
       }),
       Plugin.Assets(),
       Plugin.Static(),
