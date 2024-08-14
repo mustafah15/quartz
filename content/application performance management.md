@@ -1,6 +1,0 @@
----
-aliases:
-  - APM
-related: "[[observability]]"
----
-
