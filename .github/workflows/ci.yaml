@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build and deploy
 
 on:
   pull_request:
@@ -24,8 +24,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
