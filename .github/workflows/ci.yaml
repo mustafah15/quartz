@@ -9,8 +9,17 @@ on:
       - v4
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+ 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  build-and-test:
+  build:
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -46,3 +55,14 @@ jobs:
         with:
           name: github-pages
           path: public    # This should be your Quartz build output directory
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3
+    
