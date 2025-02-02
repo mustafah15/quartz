@@ -34,12 +34,15 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ci    # Make sure this matches the name in download-artifact
-          path: ci   # Verify this path exists and contains files
+
       - run: npm ci
       
-
-      - name: Ensure Quartz builds, check bundle info
+      - name: Build Quartz
         run: npx quartz build --bundleInfo
+
+      # Add this step after the build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: public    # This should be your Quartz build output directory
