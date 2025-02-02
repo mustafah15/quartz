@@ -21,6 +21,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -44,24 +46,38 @@ jobs:
       - name: Build Quartz
         run: npx quartz build --bundleInfo
 
+      # Debug step to verify build output
+      - name: Verify build output
+        run: |
+          echo "Current directory contents:"
+          ls -la
+          echo "Public directory contents:"
+          ls -la public || echo "Public directory not found"
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      # Changed to use upload-artifact first
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          path: ./public
           name: github-pages
+          path: public
+          if-no-files-found: error  # This will make the build fail if no files are found
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
-    needs: build
-    runs-on: ubuntu-latest
-    name: Deploy
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: ./public
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
