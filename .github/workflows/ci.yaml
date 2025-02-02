@@ -41,25 +41,47 @@ jobs:
 
       - run: npm ci
       
+      # Debug: Check current directory
+      - name: Check working directory
+        run: pwd && ls -la
+
       - name: Build Quartz
         run: npx quartz build --bundleInfo
+
+      # Debug: Verify build output
+      - name: Check build output
+        run: |
+          echo "Checking if public directory exists:"
+          ls -la
+          echo "Contents of public directory (if it exists):"
+          ls -la public || echo "public directory not found"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      # Modified upload step with explicit artifact name
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
+          name: github-pages-deployment # Explicit name
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/v4'
+    if: github.ref == 'refs/heads/v4'  # Simplified condition
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Debug: List available artifacts
+      - name: List artifacts
+        run: |
+          echo "Available artifacts:"
+          ls -la ${{ github.workspace }} || echo "No artifacts found in workspace"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
+        with:
+          artifact_name: github-pages-deployment # Match the upload name
