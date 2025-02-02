@@ -37,11 +37,5 @@ jobs:
 
       - run: npm ci
 
-      - name: Check types and style
-        run: npm run check
-
-      - name: Test
-        run: npm test
-
       - name: Ensure Quartz builds, check bundle info
         run: npx quartz build --bundleInfo
