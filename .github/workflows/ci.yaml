@@ -47,20 +47,30 @@ jobs:
       - name: Build Quartz
         run: npx quartz build --bundleInfo
 
-      # Add this step after the build
+      # Configure Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
           path: public    # This should be your Quartz build output directory
+
   deploy:
     needs: build
+    runs-on: ubuntu-latest # Added this
+    if: github.event_name == 'push' && github.ref == 'refs/heads/v4' # Only deploy on push to v4
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: .
+
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
-    
+        uses: actions/deploy-pages@v3  # Updated to v3
