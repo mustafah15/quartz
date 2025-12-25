@@ -9,10 +9,10 @@ active:
 aliases:
   - Technical Index
 ---
-- book notes
+- Book Notes
 	- [[philosophy of software design]]
 	- [[Learning Domain Driven Design]]
-- architecture notes 
+- Software Architecture Notes
 	- [[object oriented design]]
 	- [[SOLID]]
 	- [[design patterns]]
@@ -21,18 +21,16 @@ aliases:
 	- [[reactive distributed systems]]
 	- [[database engineering]]
 	- [[common distributed system patterns]]
-- tools
+- Tools
 	- [[PHP]]
 	- [[TypeScript]]
 	- [[Go Lang]]
 	- [[kafka]]
 - [[platform engineering]]
-- infrastructure
+- Infrastructure
 	- [[Site Reliability Engineering|SRE]]
 	- [[observability]]
 	- [[Kubernetes]]
-- soft skills
-	- [staff engineer path](https://www.ebooks.com/en-de/book/210670147/the-staff-engineer-s-path/tanya-reilly/) 
 - Personal Knowledge Management
 	- [[zettelkasten]]
 		-  [[Folgezettel]]
@@ -42,3 +40,5 @@ aliases:
 		- [[fleeting notes]]
 	- [[Niklas Luhmann]]
 	- [[How to Take Smart Notes]]
+- Math
+	- [[calculus]]
